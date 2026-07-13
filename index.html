@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATC Simulator</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="panel flight-panel">
+        <h1>ATC Simulator</h1>
+        <div class="scoreboard">
+          <span>Turn <strong id="turnCount">0</strong>/60</span>
+          <span>Score <strong id="score">0</strong></span>
+        </div>
+        <h2>Flight List</h2>
+        <ul id="flightList" class="flight-list"></ul>
+      </aside>
+
+      <section class="radar-wrap">
+        <canvas id="radar" width="800" height="800" aria-label="Radar screen"></canvas>
+        <div id="flash" class="flash" aria-hidden="true">✦</div>
+        <div id="gameState" class="game-state hidden"></div>
+      </section>
+
+      <aside class="panel chat-panel">
+        <h2>Radio</h2>
+        <div id="chatLog" class="chat-log" aria-live="polite"></div>
+        <form id="commandForm" class="command-form">
+          <input id="commandInput" autocomplete="off" placeholder="AB123 H270 or C5" />
+          <button type="submit">Send</button>
+        </form>
+      </aside>
+    </main>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
