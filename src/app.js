@@ -1,4 +1,4 @@
-import { CONFIG, advanceTurn, applyCommand, createGame, distanceBlocks, stepPoint } from './game.js';
+const { CONFIG, advanceTurn, applyCommand, createGame, distanceBlocks, stepPoint } = window.AtcGame;
 
 const canvas = document.querySelector('#radar');
 const ctx = canvas.getContext('2d');

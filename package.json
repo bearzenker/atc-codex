@@ -3,6 +3,5 @@
     "test": "node --test"
   },
   "devDependencies": {},
-  "dependencies": {},
-  "type": "module"
+  "dependencies": {}
 }

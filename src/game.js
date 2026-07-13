@@ -1,4 +1,4 @@
-export const CONFIG = {
+const CONFIG = {
   width: 800,
   height: 800,
   blockSize: 10,
@@ -15,21 +15,21 @@ export const CONFIG = {
 };
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-export const toRad = (deg) => (deg * Math.PI) / 180;
-export const normHeading = (deg) => ((deg % 360) + 360) % 360;
-export const headingDiff = (a, b) => Math.abs(((normHeading(a) - normHeading(b) + 540) % 360) - 180);
-export const distanceBlocks = (a, b, cfg = CONFIG) => Math.hypot(a.x - b.x, a.y - b.y) / cfg.blockSize;
+const toRad = (deg) => (deg * Math.PI) / 180;
+const normHeading = (deg) => ((deg % 360) + 360) % 360;
+const headingDiff = (a, b) => Math.abs(((normHeading(a) - normHeading(b) + 540) % 360) - 180);
+const distanceBlocks = (a, b, cfg = CONFIG) => Math.hypot(a.x - b.x, a.y - b.y) / cfg.blockSize;
 
-export function headingTo(from, to) {
+function headingTo(from, to) {
   return normHeading((Math.atan2(to.x - from.x, from.y - to.y) * 180) / Math.PI);
 }
 
-export function stepPoint(point, heading, speedBlocks, cfg = CONFIG) {
+function stepPoint(point, heading, speedBlocks, cfg = CONFIG) {
   const pixels = speedBlocks * cfg.blockSize;
   return { x: point.x + Math.sin(toRad(heading)) * pixels, y: point.y - Math.cos(toRad(heading)) * pixels };
 }
 
-export function createAircraft(index, turn, cfg = CONFIG) {
+function createAircraft(index, turn, cfg = CONFIG) {
   const side = index % 4;
   const inset = 80 + ((index * 137) % 640);
   const positions = [
@@ -56,14 +56,14 @@ export function createAircraft(index, turn, cfg = CONFIG) {
   };
 }
 
-export function createGame(cfg = CONFIG) {
+function createGame(cfg = CONFIG) {
   const aircraft = [createAircraft(0, 0, cfg), createAircraft(1, 0, cfg)];
   return { cfg, turn: 0, score: 0, nearMisses: 0, lost: 0, spawned: 2, gameOver: false, messages: [], aircraft };
 }
 
-export function addMessage(game, text) { game.messages.push({ turn: game.turn, text }); }
+function addMessage(game, text) { game.messages.push({ turn: game.turn, text }); }
 
-export function applyCommand(game, raw) {
+function applyCommand(game, raw) {
   const [flight, command] = raw.trim().toUpperCase().split(/\s+/, 2);
   const plane = game.aircraft.find((a) => a.id === flight && a.status === 'in sector');
   if (!plane || !command) return false;
@@ -91,7 +91,7 @@ function adjustPlane(plane) {
   }
 }
 
-export function inFinalApproach(plane, cfg = CONFIG) {
+function inFinalApproach(plane, cfg = CONFIG) {
   if (plane.altitude > 5 || headingDiff(plane.heading, cfg.runwayHeading) > 30) return false;
   const runwayRad = toRad(cfg.runwayHeading);
   const dx = plane.x - cfg.airport.x;
@@ -101,7 +101,7 @@ export function inFinalApproach(plane, cfg = CONFIG) {
   return along > 0 && along <= cfg.approachLengthBlocks * cfg.blockSize && cross <= cfg.approachHalfWidthBlocks * cfg.blockSize;
 }
 
-export function advanceTurn(game) {
+function advanceTurn(game) {
   if (game.gameOver) return game;
   game.turn += 1;
   if (game.spawned < game.cfg.maxAircraft && game.turn % game.cfg.spawnEveryTurns === 0) {
@@ -136,3 +136,23 @@ export function advanceTurn(game) {
   if (game.turn >= game.cfg.levelTurns) addMessage(game, 'Level complete');
   return game;
 }
+
+
+const AtcGame = {
+  CONFIG,
+  toRad,
+  normHeading,
+  headingDiff,
+  distanceBlocks,
+  headingTo,
+  stepPoint,
+  createAircraft,
+  createGame,
+  addMessage,
+  applyCommand,
+  inFinalApproach,
+  advanceTurn,
+};
+
+if (typeof window !== 'undefined') window.AtcGame = AtcGame;
+if (typeof module !== 'undefined') module.exports = AtcGame;

@@ -1,6 +1,6 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import { CONFIG, advanceTurn, applyCommand, createGame, headingDiff, inFinalApproach } from '../src/game.js';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { CONFIG, advanceTurn, applyCommand, createGame, headingDiff, inFinalApproach } = require('../src/game.js');
 
 test('spawns level one aircraft on the five-turn cadence until six total', () => {
   const game = createGame(CONFIG);
