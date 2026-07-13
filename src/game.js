@@ -1,3 +1,5 @@
+(function () {
+'use strict';
 const CONFIG = {
   width: 800,
   height: 800,
@@ -156,3 +158,5 @@ const AtcGame = {
 
 if (typeof window !== 'undefined') window.AtcGame = AtcGame;
 if (typeof module !== 'undefined') module.exports = AtcGame;
+
+})();

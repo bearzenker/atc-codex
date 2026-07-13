@@ -1,3 +1,5 @@
+(function () {
+'use strict';
 const { CONFIG, advanceTurn, applyCommand, createGame, distanceBlocks, stepPoint } = window.AtcGame;
 
 const canvas = document.querySelector('#radar');
@@ -98,3 +100,5 @@ commandForm.addEventListener('submit', (event) => {
 
 setInterval(() => { advanceTurn(game); render(); }, CONFIG.turnPauseMs);
 render();
+
+})();
