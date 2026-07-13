@@ -24,3 +24,14 @@ test('final approach requires runway heading and altitude at or below angels fiv
   assert.equal(inFinalApproach({ ...plane, altitude: 6 }, CONFIG), false);
   assert.equal(inFinalApproach({ ...plane, heading: 180 }, CONFIG), false);
 });
+
+
+test('adds level complete only once after the final turn', () => {
+  const game = createGame({ ...CONFIG, levelTurns: 2, maxAircraft: 2 });
+  advanceTurn(game);
+  advanceTurn(game);
+  advanceTurn(game);
+  const completions = game.messages.filter((message) => message.text === 'Level complete');
+  assert.equal(game.levelComplete, true);
+  assert.equal(completions.length, 1);
+});

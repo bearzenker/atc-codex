@@ -60,7 +60,7 @@ function createAircraft(index, turn, cfg = CONFIG) {
 
 function createGame(cfg = CONFIG) {
   const aircraft = [createAircraft(0, 0, cfg), createAircraft(1, 0, cfg)];
-  return { cfg, turn: 0, score: 0, nearMisses: 0, lost: 0, spawned: 2, gameOver: false, messages: [], aircraft };
+  return { cfg, turn: 0, score: 0, nearMisses: 0, lost: 0, spawned: 2, gameOver: false, levelComplete: false, messages: [], aircraft };
 }
 
 function addMessage(game, text) { game.messages.push({ turn: game.turn, text }); }
@@ -135,7 +135,7 @@ function advanceTurn(game) {
     if (active[i].altitude === active[j].altitude && distanceBlocks(active[i], active[j], game.cfg) <= 0.2) { game.gameOver = true; addMessage(game, `${active[i].id} collided with ${active[j].id}. Game over.`); }
     else if (active[i].altitude === active[j].altitude && distanceBlocks(active[i], active[j], game.cfg) < 2) { game.nearMisses += 1; game.score -= 2; addMessage(game, `Near miss: ${active[i].id} and ${active[j].id}`); }
   }
-  if (game.turn >= game.cfg.levelTurns) addMessage(game, 'Level complete');
+  if (game.turn >= game.cfg.levelTurns && !game.levelComplete) { game.levelComplete = true; addMessage(game, 'Level complete'); }
   return game;
 }
 

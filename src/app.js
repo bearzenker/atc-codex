@@ -72,7 +72,7 @@ function render() {
     const msg = document.createElement('p'); msg.textContent = game.messages[renderedMessages++].text; chatLog.append(msg); chatLog.scrollTop = chatLog.scrollHeight;
     flash.classList.remove('pulse'); void flash.offsetWidth; flash.classList.add('pulse'); playChime();
   }
-  gameState.classList.toggle('hidden', !game.gameOver && game.turn < CONFIG.levelTurns);
+  gameState.classList.toggle('hidden', !game.gameOver && !game.levelComplete);
   gameState.textContent = game.gameOver ? 'GAME OVER' : 'LEVEL COMPLETE';
 }
 
